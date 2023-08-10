@@ -1,4 +1,4 @@
-package club.mobile.d21.navigationgraph
+package com.example.navigationgraph
 
 import org.junit.Test
 
