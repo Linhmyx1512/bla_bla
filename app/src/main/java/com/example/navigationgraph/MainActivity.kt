@@ -1,35 +1,39 @@
 package com.example.navigationgraph
 
+import android.app.Activity
 import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.fragment.app.Fragment
+import com.example.navigationgraph.databinding.MainActivityBinding
+import com.example.navigationgraph.fragment.GarbageFragment
+import com.example.navigationgraph.fragment.HomeFragment
+import com.example.navigationgraph.fragment.ProfileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
-import com.example.navigationgraph.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityMainBinding
-
+class MainActivity : ComponentActivity() {
+    private lateinit var binding: MainActivityBinding
+    private lateinit var navigationView: BottomNavigationView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        navigationView = binding.bottomNav
+        setOnClick()
+    }
 
-        val navView: BottomNavigationView = binding.navView
-
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
-            )
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+    private fun setOnClick() {
+        navigationView.setOnItemSelectedListener { item ->
+            val fragment: Fragment = when (item.itemId) {
+                R.id.action_home -> HomeFragment()
+                R.id.action_garbage -> GarbageFragment()
+                R.id.action_profile -> ProfileFragment()
+                else -> HomeFragment()
+            }
+            true
+        }
+    }
+    private fun displayFragment(fragment: Fragment) {
+        Activity.support
     }
 }
+
